@@ -3,31 +3,101 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --color-paper: #fdfbf7;
+  --color-pencil: #2d2d2d;
+  --color-muted: #e5e0d8;
+  --color-marker: #ff4d4d;
+  --color-pen: #2d5da1;
+  --color-postit: #fff9c4;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: var(--font-patrick), cursive;
+  background-color: var(--color-paper);
+  background-image: radial-gradient(var(--color-muted) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--color-pencil);
+  min-height: 100vh;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer components {
+  .paper-texture {
+    background-color: var(--color-paper);
+    background-image: radial-gradient(var(--color-muted) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .wobbly-border {
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  }
+
+  .wobbly-border-alt {
+    border-radius: 15px 225px 15px 255px / 225px 15px 255px 15px;
+  }
+
+  .hard-shadow {
+    box-shadow: 4px 4px 0px 0px var(--color-pencil);
+  }
+
+  .hard-shadow-sm {
+    box-shadow: 2px 2px 0px 0px var(--color-pencil);
+  }
+
+  .hard-shadow-lg {
+    box-shadow: 6px 6px 0px 0px var(--color-pencil);
+  }
+
+  .tape-strip {
+    position: relative;
+  }
+
+  .tape-strip::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 60px;
+    height: 24px;
+    background: rgba(255, 249, 196, 0.8);
+    border: 1px dashed var(--color-muted);
+  }
+
+  .dashed-border {
+    border: 2px dashed var(--color-pencil);
+  }
+
+  .rotate-slight {
+    transform: rotate(-1deg);
+  }
+
+  .rotate-slight-reverse {
+    transform: rotate(1deg);
+  }
+
+  .underline-sketch {
+    position: relative;
+    display: inline-block;
+  }
+
+  .underline-sketch::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--color-marker);
+    transform: rotate(-1deg);
   }
 }

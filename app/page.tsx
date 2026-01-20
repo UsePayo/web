@@ -7,6 +7,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from '@/components/ui/button';
 import { MessageCircle } from 'lucide-react';
+import { ConnectWallet } from '@/components/wallet/ConnectWallet';
+import { useWalletConnection } from '@/hooks/useWalletConnection';
 import {
   Hero,
   HowItWorks,
@@ -23,6 +25,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function LandingPage() {
   const navRef = useRef<HTMLElement>(null);
+  const { isConnected } = useWalletConnection();
 
   useGSAP(() => {
     if (!navRef.current) return;
@@ -64,12 +67,14 @@ export default function LandingPage() {
             Payo
           </Link>
           <div className="flex items-center gap-2 sm:gap-4">
-            <Link
-              href="/dashboard"
-              className="hidden sm:block font-heading text-pencil hover:text-pen transition-colors"
-            >
-              Dashboard
-            </Link>
+            {isConnected && (
+              <Link
+                href="/dashboard"
+                className="hidden sm:block font-heading text-pencil hover:text-pen transition-colors"
+              >
+                Dashboard
+              </Link>
+            )}
             <a
               href="https://t.me/PayoBot"
               target="_blank"
@@ -81,11 +86,9 @@ export default function LandingPage() {
                 Bot
               </Button>
             </a>
-            <Link href="/dashboard" className="hidden sm:block">
-              <Button variant="outline" size="sm">
-                Connect Wallet
-              </Button>
-            </Link>
+            <div className="hidden sm:block">
+              <ConnectWallet />
+            </div>
           </div>
         </div>
       </nav>

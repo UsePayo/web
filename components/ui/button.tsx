@@ -42,7 +42,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      'font-heading font-bold transition-all duration-150 wobbly-border hard-shadow cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
+      'inline-flex items-center justify-center gap-2 font-heading font-bold transition-all duration-150 wobbly-border hard-shadow cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
 
     return (
       <button

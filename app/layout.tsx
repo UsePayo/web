@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Kalam, Patrick_Hand } from 'next/font/google';
 import './globals.css';
+import { Web3Provider } from '@/components/providers/Web3Provider';
 
 const kalam = Kalam({
   weight: ['700'],
@@ -42,7 +43,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${kalam.variable} ${patrickHand.variable}`}>
-      <body className="font-body antialiased">{children}</body>
+      <body className="font-body antialiased">
+        <Web3Provider>{children}</Web3Provider>
+      </body>
     </html>
   );
 }

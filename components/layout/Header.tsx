@@ -48,6 +48,11 @@ export function Header() {
                   Dashboard
                 </Button>
               </Link>
+              <Link href="/faucet">
+                <Button variant="ghost" size="sm">
+                  Faucet
+                </Button>
+              </Link>
 
               {/* Address */}
               <span className="font-body text-sm text-pencil/60 hidden sm:inline">

@@ -1,12 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Header } from '@/components/layout/Header';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
+import { DepositModal } from '@/components/deposit/DepositModal';
+import { WithdrawModal } from '@/components/withdraw/WithdrawModal';
+import { TransactionHistory } from '@/components/transactions/TransactionHistory';
 import { useWalletConnection } from '@/hooks/useWalletConnection';
 import { usePayoVault } from '@/hooks/usePayoVault';
 import { useLinkStatus } from '@/hooks/useLinkStatus';
@@ -16,6 +19,8 @@ import { PAYO_VAULT_ADDRESS } from '@/lib/contracts';
 export default function DashboardPage() {
   const { addToast } = useToast();
   const { isConnected, address, isCorrectChain } = useWalletConnection();
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
   // Check if this wallet is linked to a Telegram account
   const { linkStatus, isLoading: isLinkStatusLoading, refetch: refetchLinkStatus } = useLinkStatus(address);
@@ -32,7 +37,6 @@ export default function DashboardPage() {
     balance,
     isBalanceLoading,
     refetchBalance,
-    deposit,
     isDepositing,
     depositError,
   } = usePayoVault(userIdentifier);
@@ -46,6 +50,34 @@ export default function DashboardPage() {
       addToast(depositError.message, 'error');
     }
   }, [depositError, addToast]);
+
+  const handleDepositClick = () => {
+    if (!isCorrectChain) {
+      addToast('Please switch to Arbitrum Sepolia network', 'warning');
+      return;
+    }
+    setIsDepositModalOpen(true);
+  };
+
+  const handleDepositSuccess = () => {
+    addToast('Deposit successful!', 'success');
+    refetchBalance();
+    refetchLinkStatus();
+  };
+
+  const handleWithdrawClick = () => {
+    if (!isCorrectChain) {
+      addToast('Please switch to Arbitrum Sepolia network', 'warning');
+      return;
+    }
+    setIsWithdrawModalOpen(true);
+  };
+
+  const handleWithdrawSuccess = () => {
+    addToast('Withdrawal successful!', 'success');
+    refetchBalance();
+    refetchLinkStatus();
+  };
 
   return (
     <main className="min-h-screen pb-20">
@@ -136,16 +168,22 @@ export default function DashboardPage() {
                   <>
                     <Button
                       variant="secondary"
-                      onClick={() => {
-                        addToast('Deposit feature coming soon! Use the Telegram bot for now.', 'info');
-                      }}
+                      onClick={handleDepositClick}
                       isLoading={isDepositing}
+                      disabled={!isCorrectChain}
                     >
                       Deposit USDC
                     </Button>
                     <Link href="/send">
                       <Button>Send USDC</Button>
                     </Link>
+                    <Button
+                      variant="outline"
+                      onClick={handleWithdrawClick}
+                      disabled={!isCorrectChain || parseFloat(balance) <= 0}
+                    >
+                      Withdraw
+                    </Button>
                   </>
                 ) : (
                   <>
@@ -171,6 +209,14 @@ export default function DashboardPage() {
           </Card>
         )}
 
+        {/* Transaction History - only show when connected and linked */}
+        {isConnected && (
+          <TransactionHistory
+            walletAddress={address}
+            isLinked={linkStatus?.linked ?? false}
+          />
+        )}
+
         {/* Info Card */}
         {isConnected && (
           <Card variant="outlined" className="mb-8">
@@ -179,6 +225,7 @@ export default function DashboardPage() {
                 How to Use Payo
               </p>
               <ul className="font-body text-pencil/70 space-y-2 list-disc list-inside">
+                <li>Need test USDC? <Link href="/faucet" className="text-pen underline">Get free tUSDC from the faucet</Link></li>
                 <li>Use the Telegram bot for the best experience: <a href="https://t.me/PayoBot" target="_blank" rel="noopener noreferrer" className="text-pen underline">@PayoBot</a></li>
                 <li>Send USDC to any Telegram username - they don&apos;t need a wallet!</li>
                 <li>Recipients can claim funds when they start using the bot</li>
@@ -202,6 +249,26 @@ export default function DashboardPage() {
           </Card>
         )}
       </div>
+
+      {/* Deposit Modal */}
+      {linkStatus?.linked && linkStatus.telegramId && (
+        <DepositModal
+          isOpen={isDepositModalOpen}
+          onClose={() => setIsDepositModalOpen(false)}
+          telegramId={linkStatus.telegramId}
+          onSuccess={handleDepositSuccess}
+        />
+      )}
+
+      {/* Withdraw Modal */}
+      {linkStatus?.linked && (
+        <WithdrawModal
+          isOpen={isWithdrawModalOpen}
+          onClose={() => setIsWithdrawModalOpen(false)}
+          balance={balance}
+          onSuccess={handleWithdrawSuccess}
+        />
+      )}
     </main>
   );
 }

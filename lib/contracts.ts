@@ -2,23 +2,34 @@ import { type Address } from 'viem';
 import { arbitrumSepolia } from 'viem/chains';
 
 // PayoVault Contract Address - Deployed on Arbitrum Sepolia
-export const PAYO_VAULT_ADDRESS: Address = '0xa58ef4f38cec398c8a40e203a67484884158cc49';
+export const PAYO_VAULT_ADDRESS: Address = '0xab141b97c3c589b6213cc64e634bfdf4dc8e091b';
 
-// USDC Contract Address on Arbitrum Sepolia
-export const USDC_ADDRESS: Address = '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d';
+// TestUSDC Contract Address on Arbitrum Sepolia (mintable faucet token)
+export const USDC_ADDRESS: Address = '0x16cae166b4358fb2f15f8ddce059afbac90ab676';
 
 // Chain configuration
 export const SUPPORTED_CHAIN = arbitrumSepolia;
 
-// PayoVault ABI - MVP version (simplified)
+// PayoVault ABI - MVP version with real USDC transfers
 export const PAYO_VAULT_ABI = [
-  // Initialize
+  // Initialize (now takes USDC token address)
   {
     type: 'function',
     name: 'initialize',
-    inputs: [{ name: 'relayer', type: 'address' }],
+    inputs: [
+      { name: 'relayer', type: 'address' },
+      { name: 'usdc_token', type: 'address' },
+    ],
     outputs: [],
     stateMutability: 'nonpayable',
+  },
+  // Get USDC Token address
+  {
+    type: 'function',
+    name: 'getUsdcToken',
+    inputs: [],
+    outputs: [{ name: '', type: 'address' }],
+    stateMutability: 'view',
   },
   // Deposit
   {
@@ -168,6 +179,11 @@ export const PAYO_VAULT_ABI = [
     name: 'InvalidAddress',
     inputs: [],
   },
+  {
+    type: 'error',
+    name: 'TransferFailed',
+    inputs: [],
+  },
 ] as const;
 
 // Helper to convert USDC amount (6 decimals) to human-readable
@@ -193,3 +209,154 @@ export async function hashIdentifier(identifier: string): Promise<`0x${string}`>
   const { keccak256, toBytes } = await import('viem');
   return keccak256(toBytes(identifier.toLowerCase()));
 }
+
+// TestUSDC ABI - Mintable ERC20 with faucet
+export const TEST_USDC_ABI = [
+  // ERC20 Standard
+  {
+    type: 'function',
+    name: 'name',
+    inputs: [],
+    outputs: [{ name: '', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'symbol',
+    inputs: [],
+    outputs: [{ name: '', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'decimals',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint8' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'totalSupply',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'balanceOf',
+    inputs: [{ name: 'account', type: 'address' }],
+    outputs: [{ name: '', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'allowance',
+    inputs: [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+    ],
+    outputs: [{ name: '', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'transfer',
+    inputs: [
+      { name: 'to', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    outputs: [{ name: '', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'approve',
+    inputs: [
+      { name: 'spender', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    outputs: [{ name: '', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'transferFrom',
+    inputs: [
+      { name: 'from', type: 'address' },
+      { name: 'to', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    outputs: [{ name: '', type: 'bool' }],
+    stateMutability: 'nonpayable',
+  },
+  // Faucet functions
+  {
+    type: 'function',
+    name: 'faucet',
+    inputs: [],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'faucetTo',
+    inputs: [{ name: 'to', type: 'address' }],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'faucetCooldownRemaining',
+    inputs: [{ name: 'account', type: 'address' }],
+    outputs: [{ name: '', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  // Events
+  {
+    type: 'event',
+    name: 'Transfer',
+    inputs: [
+      { name: 'from', type: 'address', indexed: true },
+      { name: 'to', type: 'address', indexed: true },
+      { name: 'value', type: 'uint256', indexed: false },
+    ],
+  },
+  {
+    type: 'event',
+    name: 'Approval',
+    inputs: [
+      { name: 'owner', type: 'address', indexed: true },
+      { name: 'spender', type: 'address', indexed: true },
+      { name: 'value', type: 'uint256', indexed: false },
+    ],
+  },
+  {
+    type: 'event',
+    name: 'Faucet',
+    inputs: [
+      { name: 'to', type: 'address', indexed: true },
+      { name: 'amount', type: 'uint256', indexed: false },
+    ],
+  },
+  // Errors
+  {
+    type: 'error',
+    name: 'InsufficientBalance',
+    inputs: [],
+  },
+  {
+    type: 'error',
+    name: 'InsufficientAllowance',
+    inputs: [],
+  },
+  {
+    type: 'error',
+    name: 'ZeroAddress',
+    inputs: [],
+  },
+  {
+    type: 'error',
+    name: 'FaucetCooldown',
+    inputs: [],
+  },
+] as const;

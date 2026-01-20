@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -29,12 +29,12 @@ export default function SendPage() {
       ? `wallet:${address}`
       : undefined;
 
-  const { send, isSending, sendError, balance, isBalanceLoading } =
-    usePayoVault(senderIdentifier);
+  const { balance, isBalanceLoading, refetchBalance } = usePayoVault(senderIdentifier);
 
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
   const [message, setMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
   const [errors, setErrors] = useState<{
     recipient?: string;
     amount?: string;
@@ -43,13 +43,6 @@ export default function SendPage() {
   // Check if contract is deployed
   const isContractDeployed =
     PAYO_VAULT_ADDRESS !== '0x0000000000000000000000000000000000000000';
-
-  // Show toast on send error
-  useEffect(() => {
-    if (sendError) {
-      addToast(sendError.message, 'error');
-    }
-  }, [sendError, addToast]);
 
   const validateForm = () => {
     const newErrors: typeof errors = {};
@@ -96,23 +89,43 @@ export default function SendPage() {
       return;
     }
 
+    setIsSending(true);
+
     try {
-      const txHash = await send({
-        fromUsername: senderIdentifier,
-        toUsername: recipient,
-        amount,
-        message,
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          walletAddress: address,
+          toUsername: recipient,
+          amount,
+          message,
+        }),
       });
 
-      if (txHash) {
-        addToast('Transaction submitted successfully!', 'success');
-        // Wait a moment then redirect to dashboard
-        setTimeout(() => {
-          router.push('/dashboard');
-        }, 2000);
+      const data = await response.json();
+
+      if (!response.ok) {
+        addToast(data.error || 'Failed to send USDC', 'error');
+        return;
       }
+
+      addToast('Transaction submitted successfully!', 'success');
+
+      // Refetch balance after successful send
+      refetchBalance();
+
+      // Wait a moment then redirect to dashboard
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 2000);
     } catch (error) {
-      // Error is already handled via useEffect
+      console.error('Send error:', error);
+      addToast('Failed to send USDC. Please try again.', 'error');
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -148,6 +161,31 @@ export default function SendPage() {
                 Connect your wallet to send USDC
               </p>
               <ConnectWallet />
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Link Telegram Prompt */}
+        {isConnected && !isLinkStatusLoading && !linkStatus?.linked && (
+          <Card variant="outlined" className="mb-6 bg-yellow-50">
+            <CardContent className="flex items-center gap-3">
+              <span className="text-xl">&#x1F517;</span>
+              <div>
+                <p className="font-heading font-bold text-pencil">Link Your Telegram</p>
+                <p className="font-body text-sm text-pencil/70">
+                  To send USDC from the web, link your wallet to Telegram first.
+                  Type <code className="bg-muted px-1 rounded">/link</code> in the{' '}
+                  <a
+                    href="https://t.me/usepayobot"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-pen underline"
+                  >
+                    Payo Bot
+                  </a>
+                  .
+                </p>
+              </div>
             </CardContent>
           </Card>
         )}
@@ -231,9 +269,15 @@ export default function SendPage() {
                   type="submit"
                   size="lg"
                   isLoading={isSending}
-                  disabled={(!isConnected || !isCorrectChain) && isContractDeployed}
+                  disabled={(!isConnected || !isCorrectChain || !linkStatus?.linked) && isContractDeployed}
                 >
-                  {!isCorrectChain && isConnected ? 'Switch to Arbitrum Sepolia' : isSending ? 'Sending...' : 'Send USDC'}
+                  {!isCorrectChain && isConnected
+                    ? 'Switch to Arbitrum Sepolia'
+                    : !linkStatus?.linked && isConnected
+                      ? 'Link Telegram First'
+                      : isSending
+                        ? 'Sending...'
+                        : 'Send USDC'}
                 </Button>
                 <Link href="/dashboard" className="w-full">
                   <Button type="button" variant="ghost" size="lg" className="w-full">

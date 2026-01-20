@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Header } from '@/components/layout/Header';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
 import { DepositModal } from '@/components/deposit/DepositModal';
 import { WithdrawModal } from '@/components/withdraw/WithdrawModal';
@@ -15,6 +14,7 @@ import { usePayoVault } from '@/hooks/usePayoVault';
 import { useLinkStatus } from '@/hooks/useLinkStatus';
 import { useToast } from '@/components/ui/toast';
 import { PAYO_VAULT_ADDRESS } from '@/lib/contracts';
+import { Link2, CircleCheck } from 'lucide-react';
 
 export default function DashboardPage() {
   const { addToast } = useToast();
@@ -80,10 +80,8 @@ export default function DashboardPage() {
   };
 
   return (
-    <main className="min-h-screen pb-20">
-      <Header />
-
-      <div className="max-w-4xl mx-auto px-4 pt-24">
+    <main className="min-h-screen pb-20 pt-20">
+      <div className="max-w-4xl mx-auto px-4 pt-4">
         {/* Connect Wallet Prompt - show when not connected */}
         {!isConnected && (
           <Card variant="postit" className="mb-8 text-center" rotate="left">
@@ -104,7 +102,7 @@ export default function DashboardPage() {
           <Card variant="outlined" className="mb-6 bg-yellow-50/50">
             <CardContent className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="text-2xl">&#x1F517;</span>
+                <Link2 className="w-6 h-6 text-pencil" />
                 <div>
                   <p className="font-heading font-bold text-pencil">Link Your Telegram</p>
                   <p className="font-body text-sm text-pencil/70">
@@ -126,7 +124,7 @@ export default function DashboardPage() {
           <Card variant="outlined" className="mb-6 bg-green-50/50">
             <CardContent className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="text-2xl">&#x2705;</span>
+                <CircleCheck className="w-6 h-6 text-green-600" />
                 <div>
                   <p className="font-heading font-bold text-pencil">
                     Linked to Telegram
@@ -226,7 +224,7 @@ export default function DashboardPage() {
               </p>
               <ul className="font-body text-pencil/70 space-y-2 list-disc list-inside">
                 <li>Need test USDC? <Link href="/faucet" className="text-pen underline">Get free tUSDC from the faucet</Link></li>
-                <li>Use the Telegram bot for the best experience: <a href="https://t.me/PayoBot" target="_blank" rel="noopener noreferrer" className="text-pen underline">@PayoBot</a></li>
+                <li>Use the Telegram bot for the best experience: <a href="https://t.me/usepayo_bot" target="_blank" rel="noopener noreferrer" className="text-pen underline">@usepayo_bot</a></li>
                 <li>Send USDC to any Telegram username - they don&apos;t need a wallet!</li>
                 <li>Recipients can claim funds when they start using the bot</li>
                 <li>Withdraw to any external wallet anytime</li>

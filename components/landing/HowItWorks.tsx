@@ -20,14 +20,14 @@ const steps = [
   {
     number: 2,
     title: 'They Get Notified',
-    description: 'Your friend receives a Telegram message with a link to claim their USDC.',
+    description: 'Your friend receives a Telegram notification that USDC is waiting for them.',
     color: 'pen',
     icon: Bell,
   },
   {
     number: 3,
-    title: 'Claim Easily',
-    description: 'They verify with their phone number or connect a wallet. USDC goes directly to them.',
+    title: 'Auto-Claimed',
+    description: 'When they use Payo, funds are automatically credited to their account.',
     color: 'marker',
     icon: CheckCircle,
   },

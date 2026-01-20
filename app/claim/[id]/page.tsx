@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
 import { useWalletConnection } from '@/hooks/useWalletConnection';
 import { usePendingTransfer } from '@/hooks/usePayoVault';
 import { usePayoVault } from '@/hooks/usePayoVault';
 import { useToast } from '@/components/ui/toast';
 import { PAYO_VAULT_ADDRESS, formatUSDC } from '@/lib/contracts';
+import { HelpCircle, CircleCheck, AlertTriangle, Smartphone, Wallet, Lock } from 'lucide-react';
 
 // Mock claim data - used when contract not deployed
 const mockClaim = {
@@ -142,15 +142,8 @@ export default function ClaimPage({ params }: { params: Promise<{ id: string }> 
   // Show loading state
   if (isTransferLoading && isContractDeployed) {
     return (
-      <main className="min-h-screen pb-20">
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-              Payo
-            </Link>
-          </div>
-        </nav>
-        <div className="max-w-xl mx-auto px-4 pt-24 text-center">
+      <main className="min-h-screen pb-20 pt-20">
+        <div className="max-w-xl mx-auto px-4 pt-4 text-center">
           <p className="font-body text-pencil/70">Loading transfer details...</p>
         </div>
       </main>
@@ -160,18 +153,11 @@ export default function ClaimPage({ params }: { params: Promise<{ id: string }> 
   // Show not found state
   if (!transferExists && isContractDeployed) {
     return (
-      <main className="min-h-screen pb-20">
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-              Payo
-            </Link>
-          </div>
-        </nav>
-        <div className="max-w-xl mx-auto px-4 pt-24">
+      <main className="min-h-screen pb-20 pt-20">
+        <div className="max-w-xl mx-auto px-4 pt-4">
           <Card variant="outlined" className="text-center">
             <CardContent>
-              <span className="text-4xl mb-4 block">&#x2753;</span>
+              <HelpCircle className="w-12 h-12 text-pencil/60 mx-auto mb-4" />
               <p className="font-heading text-xl font-bold text-pencil mb-2">
                 Transfer Not Found
               </p>
@@ -191,18 +177,11 @@ export default function ClaimPage({ params }: { params: Promise<{ id: string }> 
   // Show already claimed state
   if (isClaimed) {
     return (
-      <main className="min-h-screen pb-20">
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-              Payo
-            </Link>
-          </div>
-        </nav>
-        <div className="max-w-xl mx-auto px-4 pt-24">
+      <main className="min-h-screen pb-20 pt-20">
+        <div className="max-w-xl mx-auto px-4 pt-4">
           <Card variant="postit" className="text-center" rotate="right">
             <CardContent>
-              <span className="text-4xl mb-4 block">&#x2705;</span>
+              <CircleCheck className="w-12 h-12 text-green-600 mx-auto mb-4" />
               <p className="font-heading text-xl font-bold text-pencil mb-2">
                 Already Claimed
               </p>
@@ -220,23 +199,13 @@ export default function ClaimPage({ params }: { params: Promise<{ id: string }> 
   }
 
   return (
-    <main className="min-h-screen pb-20">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-            Payo
-          </Link>
-          <Badge variant="info">Claim #{resolvedParams.id.slice(0, 8)}</Badge>
-        </div>
-      </nav>
-
-      <div className="max-w-xl mx-auto px-4 pt-24">
+    <main className="min-h-screen pb-20 pt-20">
+      <div className="max-w-xl mx-auto px-4 pt-4">
         {/* Contract Not Deployed Warning */}
         {!isContractDeployed && (
           <Card variant="outlined" className="mb-6 bg-yellow-50">
             <CardContent className="flex items-center gap-3">
-              <span className="text-xl">&#x26A0;</span>
+              <AlertTriangle className="w-6 h-6 text-yellow-600" />
               <div>
                 <p className="font-heading font-bold text-pencil">Demo Mode</p>
                 <p className="font-body text-sm text-pencil/70">
@@ -284,7 +253,7 @@ export default function ClaimPage({ params }: { params: Promise<{ id: string }> 
               onClick={() => setClaimMethod('phone')}
             >
               <CardContent className="flex items-center gap-4">
-                <span className="text-4xl">&#x1F4F1;</span>
+                <Smartphone className="w-10 h-10 text-pencil" />
                 <div>
                   <p className="font-heading text-xl font-bold text-pencil">
                     Verify with Phone
@@ -302,7 +271,7 @@ export default function ClaimPage({ params }: { params: Promise<{ id: string }> 
               onClick={() => setClaimMethod('wallet')}
             >
               <CardContent className="flex items-center gap-4">
-                <span className="text-4xl">&#x1F4B3;</span>
+                <Wallet className="w-10 h-10 text-pencil" />
                 <div>
                   <p className="font-heading text-xl font-bold text-pencil">
                     Connect Wallet
@@ -449,7 +418,7 @@ export default function ClaimPage({ params }: { params: Promise<{ id: string }> 
         {/* Security Info */}
         <Card variant="outlined" className="mt-8 rotate-slight">
           <CardContent className="flex items-start gap-4">
-            <span className="text-2xl">&#x1F512;</span>
+            <Lock className="w-6 h-6 text-pencil" />
             <div>
               <p className="font-heading font-bold text-pencil mb-1">
                 Secure & Non-Custodial

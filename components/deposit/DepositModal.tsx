@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { PAYO_VAULT_ADDRESS, USDC_ADDRESS, PAYO_VAULT_ABI } from '@/lib/contracts';
+import { CircleCheck } from 'lucide-react';
 
 // Standard ERC20 ABI for approve and allowance
 const ERC20_ABI = [
@@ -251,7 +252,7 @@ export function DepositModal({ isOpen, onClose, telegramId, onSuccess }: Deposit
         <CardContent>
           {step === 'success' ? (
             <div className="text-center py-4">
-              <div className="text-5xl mb-4">&#x2705;</div>
+              <CircleCheck className="w-16 h-16 text-green-600 mx-auto mb-4" />
               <p className="font-heading text-xl font-bold text-pencil mb-2">
                 Deposit Successful!
               </p>

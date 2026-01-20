@@ -18,11 +18,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const features = [
   {
-    icon: WalletCards,
-    title: 'No Wallet Needed',
-    description: 'Recipients can claim with just their phone number. Zero crypto knowledge required.',
-  },
-  {
     icon: Zap,
     title: 'Instant Transfers',
     description: 'Money moves in seconds, not days. Send to anyone, anywhere, anytime.',
@@ -38,9 +33,14 @@ const features = [
     description: 'Funds stay in smart contracts until claimed. We never hold your money.',
   },
   {
+    icon: WalletCards,
+    title: 'Easy Wallet Claims',
+    description: 'Recipients connect any wallet to claim. Works with MetaMask, WalletConnect, and more.',
+  },
+  {
     icon: Smartphone,
-    title: 'Phone Number Claims',
-    description: 'Recipients verify via phone. No wallet setup, no seed phrases, no confusion.',
+    title: 'Telegram-First',
+    description: 'Send via Telegram bot commands. No app downloads, just chat and send.',
   },
   {
     icon: Globe,

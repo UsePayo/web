@@ -17,12 +17,11 @@ const messages = [
 ];
 
 const claimMessages = [
-  { type: 'bot', text: 'Hey @alice! You have 25 USDC waiting for you from @bob' },
-  { type: 'user', text: '/claim', delay: 1500 },
-  { type: 'bot', text: 'Verify your phone number to claim:', delay: 2500 },
-  { type: 'bot', text: 'Code sent to +1 (555) ***-**89', delay: 3000 },
-  { type: 'user', text: '123456', delay: 4000 },
-  { type: 'bot', text: '25 USDC claimed successfully! Sent to your wallet.', delay: 5000, isSuccess: true },
+  { type: 'bot', text: 'You received 25 USDC from @bob!' },
+  { type: 'bot', text: 'Your new balance: 25.00 USDC', delay: 1000 },
+  { type: 'user', text: '/balance', delay: 2500 },
+  { type: 'bot', text: 'Your Payo Balance', delay: 3500 },
+  { type: 'bot', text: 'Available: 25.00 USDC', delay: 4000, isSuccess: true },
 ];
 
 function PhoneUI({ title, messages: msgList, startDelay = 0 }: { title: string; messages: typeof messages; startDelay?: number }) {

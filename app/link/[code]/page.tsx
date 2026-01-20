@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
 import { useWalletConnection } from '@/hooks/useWalletConnection';
 import { useToast } from '@/components/ui/toast';
+import { XCircle, CircleCheck, Lock } from 'lucide-react';
 
 interface CodeInfo {
   telegramUsername: string | null;
@@ -110,15 +111,8 @@ export default function LinkPage({ params }: { params: Promise<{ code: string }>
   // Loading state
   if (isLoading) {
     return (
-      <main className="min-h-screen pb-20">
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-              Payo
-            </Link>
-          </div>
-        </nav>
-        <div className="max-w-xl mx-auto px-4 pt-24 text-center">
+      <main className="min-h-screen pb-20 pt-20">
+        <div className="max-w-xl mx-auto px-4 pt-4 text-center">
           <p className="font-body text-pencil/70">Loading...</p>
         </div>
       </main>
@@ -128,18 +122,11 @@ export default function LinkPage({ params }: { params: Promise<{ code: string }>
   // Error state
   if (error) {
     return (
-      <main className="min-h-screen pb-20">
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-              Payo
-            </Link>
-          </div>
-        </nav>
-        <div className="max-w-xl mx-auto px-4 pt-24">
+      <main className="min-h-screen pb-20 pt-20">
+        <div className="max-w-xl mx-auto px-4 pt-4">
           <Card variant="outlined" className="text-center">
             <CardContent>
-              <span className="text-4xl mb-4 block">&#x274C;</span>
+              <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
               <p className="font-heading text-xl font-bold text-pencil mb-2">
                 {error === 'Code has expired' ? 'Code Expired' : 'Invalid Code'}
               </p>
@@ -150,7 +137,7 @@ export default function LinkPage({ params }: { params: Promise<{ code: string }>
               </p>
               <div className="flex flex-col gap-4 items-center">
                 <a
-                  href="https://t.me/PayoBot"
+                  href="https://t.me/usepayo_bot"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -170,18 +157,11 @@ export default function LinkPage({ params }: { params: Promise<{ code: string }>
   // Success state
   if (isLinked) {
     return (
-      <main className="min-h-screen pb-20">
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-          <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-            <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-              Payo
-            </Link>
-          </div>
-        </nav>
-        <div className="max-w-xl mx-auto px-4 pt-24">
+      <main className="min-h-screen pb-20 pt-20">
+        <div className="max-w-xl mx-auto px-4 pt-4">
           <Card variant="postit" className="text-center" rotate="right">
             <CardContent>
-              <span className="text-4xl mb-4 block">&#x2705;</span>
+              <CircleCheck className="w-12 h-12 text-green-600 mx-auto mb-4" />
               <p className="font-heading text-xl font-bold text-pencil mb-2">
                 Wallet Linked!
               </p>
@@ -201,18 +181,8 @@ export default function LinkPage({ params }: { params: Promise<{ code: string }>
   }
 
   return (
-    <main className="min-h-screen pb-20">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-            Payo
-          </Link>
-          <Badge variant="info">Link Wallet</Badge>
-        </div>
-      </nav>
-
-      <div className="max-w-xl mx-auto px-4 pt-24">
+    <main className="min-h-screen pb-20 pt-20">
+      <div className="max-w-xl mx-auto px-4 pt-4">
         {/* Code Card */}
         <Card variant="postit" className="mb-8 text-center" rotate="left">
           <CardContent>
@@ -283,7 +253,7 @@ export default function LinkPage({ params }: { params: Promise<{ code: string }>
         {/* Security Info */}
         <Card variant="outlined" className="mt-8">
           <CardContent className="flex items-start gap-4">
-            <span className="text-2xl">&#x1F512;</span>
+            <Lock className="w-6 h-6 text-pencil" />
             <div>
               <p className="font-heading font-bold text-pencil mb-1">Secure Linking</p>
               <p className="font-body text-sm text-pencil/70">

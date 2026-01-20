@@ -11,7 +11,7 @@ const faqs = [
   {
     question: 'Do I need a crypto wallet to send money?',
     answer:
-      'Yes, senders need a wallet to sign transactions. But recipients can claim with just their phone number - no wallet required! If they want, they can later connect a wallet to withdraw.',
+      'Yes, senders need a wallet with USDC to deposit funds. Recipients also connect a wallet to claim - any EVM wallet works (MetaMask, WalletConnect, Coinbase Wallet, etc.).',
   },
   {
     question: 'What is USDC?',
@@ -19,9 +19,9 @@ const faqs = [
       "USDC is a stablecoin pegged 1:1 to the US Dollar. It's backed by cash and cash equivalents held in regulated financial institutions. 1 USDC = $1 USD, always.",
   },
   {
-    question: 'How do recipients claim without a wallet?',
+    question: 'How do recipients claim their USDC?',
     answer:
-      'Recipients verify their identity using their phone number via SMS verification. Once verified, they can either withdraw to a connected wallet or hold their USDC in their Payo account.',
+      'Recipients receive a Telegram notification when you send them USDC. When they start using the Payo bot (type /start or /balance), funds are automatically credited to their account.',
   },
   {
     question: 'What are the fees?',

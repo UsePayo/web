@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Header } from '@/components/layout/Header';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
 import { useWalletConnection } from '@/hooks/useWalletConnection';
 import { useTestUSDCFaucet } from '@/hooks/useTestUSDCFaucet';
@@ -59,10 +58,8 @@ export default function FaucetPage() {
   };
 
   return (
-    <main className="min-h-screen pb-20">
-      <Header />
-
-      <div className="max-w-2xl mx-auto px-4 pt-24">
+    <main className="min-h-screen pb-20 pt-20">
+      <div className="max-w-2xl mx-auto px-4 pt-4">
         {/* Back link */}
         <Link
           href="/dashboard"

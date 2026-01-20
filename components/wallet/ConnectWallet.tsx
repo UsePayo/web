@@ -1,15 +1,17 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useWalletConnection } from '@/hooks/useWalletConnection';
-import { Wallet, X } from 'lucide-react';
+import { Wallet, X, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
 
 interface ConnectWalletProps {
   onConnect?: () => void;
+  showDashboardLink?: boolean;
 }
 
-export function ConnectWallet({ onConnect }: ConnectWalletProps) {
+export function ConnectWallet({ onConnect, showDashboardLink = true }: ConnectWalletProps) {
   const [showOptions, setShowOptions] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const {
@@ -21,6 +23,7 @@ export function ConnectWallet({ onConnect }: ConnectWalletProps) {
     isCorrectChain,
     switchToArbitrumSepolia,
     isSwitchingChain,
+    shortenAddress,
   } = useWalletConnection();
 
   // Close dropdown when clicking outside
@@ -56,16 +59,59 @@ export function ConnectWallet({ onConnect }: ConnectWalletProps) {
     );
   }
 
+  // Connected state - show dropdown with Dashboard and Disconnect
   if (isConnected) {
     return (
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" onClick={() => disconnect()}>
-          Disconnect
+      <div className="relative inline-block" ref={dropdownRef}>
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={() => setShowOptions(!showOptions)}
+          className="flex items-center gap-2"
+        >
+          <Wallet className="w-4 h-4" />
+          <span className="hidden sm:inline">{shortenAddress}</span>
+          <ChevronDown className={`w-4 h-4 transition-transform ${showOptions ? 'rotate-180' : ''}`} />
         </Button>
+
+        {showOptions && (
+          <>
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setShowOptions(false)}
+            />
+
+            {/* Dropdown menu */}
+            <div className="absolute top-full right-0 mt-2 min-w-[180px] z-50 bg-paper border-2 border-pencil rounded-lg shadow-hard p-2">
+              {showDashboardLink && (
+                <Link
+                  href="/dashboard"
+                  onClick={() => setShowOptions(false)}
+                  className="flex items-center gap-3 px-3 py-2 font-body text-pencil hover:bg-muted rounded-md transition-colors"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  <span>Dashboard</span>
+                </Link>
+              )}
+              <button
+                onClick={() => {
+                  disconnect();
+                  setShowOptions(false);
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2 font-body text-marker hover:bg-muted rounded-md transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Disconnect</span>
+              </button>
+            </div>
+          </>
+        )}
       </div>
     );
   }
 
+  // Not connected - show connect wallet options
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <Button

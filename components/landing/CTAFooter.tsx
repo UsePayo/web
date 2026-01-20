@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 const socialLinks = [
   {
     name: "Telegram Bot",
-    url: "https://t.me/PayoBot",
+    url: "https://t.me/usepayo_bot",
     icon: MessageCircle,
   },
   {
@@ -80,7 +80,7 @@ export function CTAFooter() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="https://t.me/PayoBot"
+                href="https://t.me/usepayo_bot"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -46,7 +46,7 @@ const comparisons = [
   },
   {
     feature: 'Recipient Needs',
-    payo: 'Phone number',
+    payo: 'Telegram + Wallet',
     venmo: 'Venmo account',
     paypal: 'PayPal account',
     crypto: 'Wallet address',

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
+import { Link2 } from 'lucide-react';
 
 export default function LinkIndexPage() {
   const router = useRouter();
@@ -31,22 +31,12 @@ export default function LinkIndexPage() {
   };
 
   return (
-    <main className="min-h-screen pb-20">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-paper/80 backdrop-blur-sm border-b-2 border-dashed border-pencil">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="font-heading text-2xl font-bold text-pencil">
-            Payo
-          </Link>
-          <Badge variant="info">Link Wallet</Badge>
-        </div>
-      </nav>
-
-      <div className="max-w-xl mx-auto px-4 pt-24">
+    <main className="min-h-screen pb-20 pt-20">
+      <div className="max-w-xl mx-auto px-4 pt-4">
         {/* Instructions Card */}
         <Card variant="postit" className="mb-8 text-center" rotate="left">
           <CardContent>
-            <span className="text-4xl mb-4 block">&#x1F517;</span>
+            <Link2 className="w-12 h-12 text-pencil mx-auto mb-4" />
             <p className="font-heading text-2xl font-bold text-pencil mb-2">
               Link Your Wallet
             </p>
@@ -91,7 +81,7 @@ export default function LinkIndexPage() {
               <li>
                 Open the{' '}
                 <a
-                  href="https://t.me/PayoBot"
+                  href="https://t.me/usepayo_bot"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-pen underline"
@@ -107,7 +97,7 @@ export default function LinkIndexPage() {
             </ol>
             <div className="pt-4">
               <a
-                href="https://t.me/PayoBot"
+                href="https://t.me/usepayo_bot"
                 target="_blank"
                 rel="noopener noreferrer"
               >

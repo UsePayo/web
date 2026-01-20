@@ -6,13 +6,13 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input, Textarea } from '@/components/ui/input';
-import { Header } from '@/components/layout/Header';
 import { ConnectWallet } from '@/components/wallet/ConnectWallet';
 import { useWalletConnection } from '@/hooks/useWalletConnection';
 import { usePayoVault } from '@/hooks/usePayoVault';
 import { useLinkStatus } from '@/hooks/useLinkStatus';
 import { useToast } from '@/components/ui/toast';
 import { PAYO_VAULT_ADDRESS } from '@/lib/contracts';
+import { AlertTriangle, Link2, Lightbulb } from 'lucide-react';
 
 export default function SendPage() {
   const router = useRouter();
@@ -130,10 +130,8 @@ export default function SendPage() {
   };
 
   return (
-    <main className="min-h-screen pb-20">
-      <Header />
-
-      <div className="max-w-xl mx-auto px-4 pt-24">
+    <main className="min-h-screen pb-20 pt-20">
+      <div className="max-w-xl mx-auto px-4 pt-4">
         <h1 className="font-heading text-4xl font-bold text-pencil mb-8 text-center">
           Send USDC
         </h1>
@@ -142,7 +140,7 @@ export default function SendPage() {
         {!isContractDeployed && (
           <Card variant="outlined" className="mb-6 bg-yellow-50">
             <CardContent className="flex items-center gap-3">
-              <span className="text-xl">&#x26A0;</span>
+              <AlertTriangle className="w-6 h-6 text-yellow-600" />
               <div>
                 <p className="font-heading font-bold text-pencil">Demo Mode</p>
                 <p className="font-body text-sm text-pencil/70">
@@ -169,7 +167,7 @@ export default function SendPage() {
         {isConnected && !isLinkStatusLoading && !linkStatus?.linked && (
           <Card variant="outlined" className="mb-6 bg-yellow-50">
             <CardContent className="flex items-center gap-3">
-              <span className="text-xl">&#x1F517;</span>
+              <Link2 className="w-6 h-6 text-pencil" />
               <div>
                 <p className="font-heading font-bold text-pencil">Link Your Telegram</p>
                 <p className="font-body text-sm text-pencil/70">
@@ -292,7 +290,7 @@ export default function SendPage() {
         {/* Info Card */}
         <Card variant="outlined" className="mt-8 rotate-slight-reverse">
           <CardContent className="flex items-start gap-4">
-            <span className="text-2xl">&#x1F4A1;</span>
+            <Lightbulb className="w-6 h-6 text-pencil" />
             <div>
               <p className="font-heading font-bold text-pencil mb-1">How it works</p>
               <p className="font-body text-sm text-pencil/70">

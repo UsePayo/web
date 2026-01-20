@@ -5,6 +5,7 @@ import { useAccount } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { CircleCheck } from 'lucide-react';
 
 interface WithdrawModalProps {
   isOpen: boolean;
@@ -162,7 +163,7 @@ export function WithdrawModal({ isOpen, onClose, balance, onSuccess }: WithdrawM
         <CardContent>
           {step === 'success' ? (
             <div className="text-center py-4">
-              <div className="text-5xl mb-4">&#x2705;</div>
+              <CircleCheck className="w-16 h-16 text-green-600 mx-auto mb-4" />
               <p className="font-heading text-xl font-bold text-pencil mb-2">
                 Withdrawal Successful!
               </p>

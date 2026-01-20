@@ -7,8 +7,10 @@ import gsap from 'gsap';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Send, Sparkles } from 'lucide-react';
+import { useWalletConnection } from '@/hooks/useWalletConnection';
 
 export function Hero() {
+  const { isConnected } = useWalletConnection();
   const containerRef = useRef<HTMLElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
 
@@ -68,7 +70,7 @@ export function Hero() {
   }, { scope: containerRef });
 
   const headlineWords = ['Send', 'USDC', 'to', 'anyone.'];
-  const subtitleWords = ['No', 'wallet', 'needed.'];
+  const subtitleWords = ['Instant.', 'Global.', 'Easy.'];
 
   return (
     <section ref={containerRef} className="relative pt-32 sm:pt-36 md:pt-40 pb-16 md:pb-20 px-4 min-h-[90vh] flex items-center">
@@ -122,12 +124,12 @@ export function Hero() {
 
             <p className="hero-subtitle font-body text-lg sm:text-xl md:text-2xl text-pencil/70 mb-8 sm:mb-10 max-w-xl mx-auto lg:mx-0">
               Pay friends, split bills, or send money globally through Telegram.
-              Recipients claim with just a phone number.
+              Recipients claim by connecting any wallet.
             </p>
 
             <div className="hero-buttons flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
               <a
-                href="https://t.me/PayoBot"
+                href="https://t.me/usepayo_bot"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -137,7 +139,7 @@ export function Hero() {
               </a>
               <Link href="/dashboard">
                 <Button variant="secondary" size="lg" className="w-full sm:w-auto text-base sm:text-lg">
-                  Connect Wallet
+                  {isConnected ? 'Go to Dashboard' : 'Connect Wallet'}
                 </Button>
               </Link>
             </div>
@@ -197,7 +199,7 @@ export function Hero() {
                     {/* Success message */}
                     <div className="bg-green-100 rounded-lg p-2 sm:p-3 max-w-[85%]">
                       <p className="font-body text-xs sm:text-sm text-green-800">
-                        Sent! @alice can claim at payo.link/claim/abc123
+                        Sent! @alice has been notified.
                       </p>
                     </div>
                   </div>

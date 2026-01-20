@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Payo Web
 
-## Getting Started
+Next.js dashboard for Payo. [use-payo.vercel.app](https://use-payo.vercel.app)
 
-First, run the development server:
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # localhost:3000
+npm run build   # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=  # Required
+BOT_API_URL=http://localhost:3001       # Bot backend
+BOT_API_SECRET=                          # API auth
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Pages
 
-## Learn More
+| Route          | Description                |
+| -------------- | -------------------------- |
+| `/`            | Landing page               |
+| `/dashboard`   | Balance, send, withdraw    |
+| `/faucet`      | Get 100 tUSDC for testing  |
+| `/link`        | Link Telegram to wallet    |
+| `/link/[code]` | Verify linking code        |
+| `/send`        | Send USDC to Telegram user |
+| `/claim/[id]`  | Claim pending transfer     |
 
-To learn more about Next.js, take a look at the following resources:
+## Contracts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Contract  | Address                                      |
+| --------- | -------------------------------------------- |
+| PayoVault | `0xab141b97c3c589b6213cc64e634bfdf4dc8e091b` |
+| TestUSDC  | `0x16cae166b4358fb2f15f8ddce059afbac90ab676` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Hooks
 
-## Deploy on Vercel
+| Hook                    | Purpose                          |
+| ----------------------- | -------------------------------- |
+| `usePayoVault`          | Send, deposit, withdraw, balance |
+| `useWalletConnection`   | Wallet state + chain switching   |
+| `useLinkStatus`         | Telegram-wallet link status      |
+| `useTestUSDCFaucet`     | Faucet interactions              |
+| `useTransactionHistory` | Tx history from bot API          |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Hand-drawn aesthetic:
+
+- **Colors:** `paper`, `pencil`, `marker`, `pen`, `postit`
+- **Fonts:** Kalam (headings), Patrick Hand (body)
+- **Shadows:** `shadow-hard`, `shadow-hard-sm`
+
+## Stack
+
+- Next.js 14 (App Router)
+- wagmi v3 + viem
+- GSAP animations
+- Tailwind CSS

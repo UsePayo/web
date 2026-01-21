@@ -2,20 +2,43 @@
 
 Next.js dashboard for Payo. [use-payo.vercel.app](https://use-payo.vercel.app)
 
-## Run
+## Run Locally
 
 ```bash
 npm install
-npm run dev     # localhost:3000
-npm run build   # production build
+cp .env.example .env   # Add WALLET_CONNECT_PROJECT_ID
+npm run dev            # localhost:3000
 ```
 
-## Environment
+## Deploy to Vercel
 
 ```bash
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=  # Required
-BOT_API_URL=http://localhost:3001       # Bot backend
-BOT_API_SECRET=                          # API auth
+# Option 1: Vercel Dashboard
+1. vercel.com → Add Project → GitHub repo
+2. Root directory: usepayo/web
+3. Add environment variables (see below)
+4. Deploy
+
+# Option 2: Vercel CLI
+vercel
+vercel env add NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
+vercel env add BOT_API_URL
+vercel env add BOT_API_SECRET
+vercel --prod
+```
+
+## Environment Variables
+
+```bash
+# Required
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=  # From cloud.walletconnect.com
+
+# Required for API routes (connect to bot)
+BOT_API_URL=https://your-bot.up.railway.app  # Or http://localhost:3001 for local
+BOT_API_SECRET=                               # Same secret as bot
+
+# Optional
+NEXT_PUBLIC_ARBITRUM_RPC_URL=  # Custom RPC (has default)
 ```
 
 ## Pages
@@ -30,7 +53,7 @@ BOT_API_SECRET=                          # API auth
 | `/send`        | Send USDC to Telegram user |
 | `/claim/[id]`  | Claim pending transfer     |
 
-## Contracts
+## Contracts (Arbitrum Sepolia)
 
 | Contract  | Address                                      |
 | --------- | -------------------------------------------- |
@@ -47,17 +70,18 @@ BOT_API_SECRET=                          # API auth
 | `useTestUSDCFaucet`     | Faucet interactions              |
 | `useTransactionHistory` | Tx history from bot API          |
 
-## Design
+## Design System
 
-Hand-drawn aesthetic:
+Hand-drawn sketch aesthetic:
 
 - **Colors:** `paper`, `pencil`, `marker`, `pen`, `postit`
 - **Fonts:** Kalam (headings), Patrick Hand (body)
-- **Shadows:** `shadow-hard`, `shadow-hard-sm`
+- **Shadows:** `shadow-hard`, `shadow-hard-sm`, `shadow-hard-lg`
+- **Borders:** `rounded-wobbly`, `rounded-wobbly-alt`
 
 ## Stack
 
-- Next.js 14 (App Router)
+- Next.js 16 (App Router)
 - wagmi v3 + viem
 - GSAP animations
 - Tailwind CSS

@@ -1,6 +1,6 @@
 # Payo Web
 
-Next.js dashboard for Payo. [use-payo.vercel.app](https://use-payo.vercel.app)
+Next.js dashboard for Payo. [usepayo-web.vercel.app](https://usepayo-web.vercel.app)
 
 ## Run Locally
 
